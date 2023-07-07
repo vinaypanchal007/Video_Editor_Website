@@ -1,10 +1,32 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import '../Styles/EditPage.css'
-import video from '../images/beach.jpg'
 import audio from '../images/audio.png'
 import card from '../images/cardcomp.jpg'
+import videoUrl from '../video/snowfall.mp4'
+import ReactPlayer from 'react-player';
 
 function EditPageNavbar() {
+
+
+  const videoRef = useRef(null);
+  const [played, setPlayed] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  const handleSeek = (e) => {
+    const clickedTime = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
+    setPlayed(clickedTime);
+    videoRef.current.seekTo(clickedTime);
+  };
+
+  const handlePlay = () => {
+    setPlaying(true);
+  };
+
+  const handlePause = () => {
+    setPlaying(false);
+  };
+
+
   return (
     <div className='ednav'>
       <div className='editor'>
@@ -17,7 +39,7 @@ function EditPageNavbar() {
             <div className='two'>
               <div className='c1'>
                 <div class="card">
-                  <img src={audio} className='a' alt='audio'/>
+                  <img src={audio} className='a' alt='audio' />
                   <div class="card-body">
                     <p class="card-text">audio.mp3</p>
                   </div>
@@ -48,7 +70,15 @@ function EditPageNavbar() {
               </div>
             </div>
             <div className='edit'>
-              <img className='vid' src={video} alt='vid'></img>
+              <ReactPlayer
+                ref={videoRef}
+                url={videoUrl}
+                playing={playing}
+                volume={0.8}
+                width="900px"
+                height="350px"
+                onProgress={(e) => setPlayed(e.played)}
+              />
             </div>
           </div>
         </div>
@@ -60,8 +90,8 @@ function EditPageNavbar() {
             <button className='delete'><i class="fa-solid fa-trash"></i> Delete</button>
             <div className='vidbtn'>
               <button className='back'><i class="fa-solid fa-backward"></i></button>
-              <button className='play'><i class="fa-solid fa-play"></i></button>
-              <button className='pause'><i class="fa-solid fa-pause"></i></button>
+              <button className='play' onClick={handlePlay}><i class="fa-solid fa-play"></i></button>
+              <button className='pause' onClick={handlePause}><i class="fa-solid fa-pause"></i></button>
               <button className='for'><i class="fa-solid fa-forward"></i></button>
             </div>
             <div className='options'>
@@ -76,6 +106,9 @@ function EditPageNavbar() {
               <p className='t1'> Track 1</p>
             </div>
             <div className='block2'>
+              <div className="timeline-bar" onClick={handleSeek}>
+                <div className="played-bar" style={{ width: `${played * 100}%` }} />
+              </div>
             </div>
           </div>
           <div className='track2'>
