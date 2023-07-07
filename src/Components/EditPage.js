@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import '../Styles/EditPage.css'
 import audio from '../images/audio.png'
 import card from '../images/cardcomp.jpg'
-import videoUrl from '../video/snowfall.mp4'
+import videoUrl from '../video/video.mp4'
 import ReactPlayer from 'react-player';
 
 function EditPageNavbar() {
